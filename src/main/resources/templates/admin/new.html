@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Add new user</title>
+    <style>
+        th, td {
+            padding: 5px;
+        }
+
+        td span {
+            font-size: 90%;
+            font-style: italic;
+            color: red;
+        }
+
+        .error {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<h2>Add new user</h2>
+
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="error">...
+</div>
+
+<form th:action="@{/admin/create}" th:object="${user}" method="POST">
+    <table>
+        <tr>
+            <td>User Name</td>
+
+            <td>
+                <label for="username"></label>
+                <input type="text" th:field="*{username}" id="username">
+            </td>
+
+            <td>
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" th:field="*{password}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Confirm Password</td>
+            <td><input type="password" th:field="*{confirmPassword}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" th:field="*{email}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>First Name</td>
+            <td><input type="text" th:field="*{firstName}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input type="text" th:field="*{lastName}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Roles</td>
+            <td>
+                <input type="checkbox" name="roles"
+                       th:each="role : ${allRoles}"
+                       th:text="${role.name}"
+                       th:value="${role.id}"
+                       th:field="*{roles}"
+                />
+            </td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td>
+                <input type="submit" value="Submit"/>
+                <a th:href="@{/admin/userList}">Cancel</a>
+            </td>
+            <td>&nbsp;</td>
+        </tr>
+    </table>
+</form>
+
+</body>
+</html>
+<!--
+
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>New User</title>
+</head>
+<body>
+
+<h1>Adding new User</h1>
+
+<form th:method = post th:action="@{/}">
+
+    <label for="firstName">First Name</label>
+    <input type="text" th:field="*{user.firstName}" id="firstName">
+
+    <br/>
+
+    <label for="lastName">Last Name</label>
+    <input type="text" th:field="*{user.lastName}" id="lastName">
+
+    <br/>
+
+    <label for="email">Email</label>
+    <input type="text" th:field="*{user.email}" id="email">
+
+    <br/>
+
+    <input type="submit" value="Create!">
+
+</form>
+
+<h3>
+    <a th:href="@{/}">Back</a>
+</h3>
+
+</body>
+</html>-->

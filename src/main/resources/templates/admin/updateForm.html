@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Edit user</title>
+    <style>
+        th, td {
+            padding: 5px;
+        }
+
+        td span {
+            font-size: 90%;
+            font-style: italic;
+            color: red;
+        }
+
+        .error {
+            color: red;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<th:block th:include="/_menu"></th:block>
+
+<h2>Edit user</h2>
+
+<div th:if="${errorMessage != null}"
+     th:utext="${errorMessage}" class="error">...
+</div>
+
+<form th:action="@{'/admin/update/' + ${user.id}}" th:object="${user}" method="POST">
+    <table>
+        <tr>
+            <td>User Name</td>
+
+            <td>
+                <label for="username"></label>
+                <input type="text" th:field="*{username}" id="username">
+            </td>
+
+            <td>
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td><input type="password" th:field="*{password}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Confirm Password</td>
+            <td><input type="password" th:field="*{confirmPassword}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('confirmPassword')}" th:errors="*{confirmPassword}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input type="text" th:field="*{email}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>First Name</td>
+            <td><input type="text" th:field="*{firstName}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Last Name</td>
+            <td><input type="text" th:field="*{lastName}"/></td>
+            <td>
+                <span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}">..</span>
+            </td>
+        </tr>
+        <tr>
+            <td>Current Roles</td>
+            <td th:text="${user.roles}"></td>
+        </tr>
+        <td>Roles</td>
+        <td>
+            <label>
+                <input type="checkbox"  name="ROLE_ADMIN"  th:checked="${confirmAdmin}" th:text="ROLE_ADMIN" />
+            </label>
+            <label>
+                <input type="checkbox" name="ROLE_USER"  th:checked="${confirmUser}" th:text="ROLE_USER" />
+            </label>
+
+        </td>
+        <td>&nbsp;</td>
+        <td>
+            <input type="submit" value="Submit"/>
+            <a th:href="@{/admin/userList}">Cancel</a>
+        </td>
+        <td>&nbsp;</td>
+        </tr>
+    </table>
+</form>
+<!--
+<form th:action="@{'/admin/edit/' + ${user.id}}" th:object="${allRoles}" method="POST">
+    <table>
+        <tr th:each="roles : ${allRoles}">
+            <td th:text="${roles.name}"></td>
+            <td>
+                <a href="" th:href="@{'/admin/edit/' + ${user.id}}">Edit</a>
+            </td>
+            <td>
+                <a href="" th:href="@{'/admin/deleteConfirm/' + ${user.id}}">Delete</a>
+            </td>
+            <td th:text="${user.password}"></td>
+        </tr>
+        <tr>
+            <td>User Name</td>
+
+            <td>
+                <label for="username"></label>
+                <input type="text" th:field="*{username}" id="username">
+            </td>
+
+            <td>
+                <span th:if="${#fields.hasErrors('username')}" th:errors="*{username}">..</span>
+            </td>
+        </tr>
+    <td>
+        <input type="checkbox" name="roles"
+               th:each="role : ${allRoles}"
+               th:text="${role.name}"
+               th:value="${role.id}"
+               th:field="*{roles}"
+        />
+    </td>-->
+</body>
+
+</html>
