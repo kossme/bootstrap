@@ -16,8 +16,9 @@
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <span th:if="${#request.userPrincipal != null}">
+
     <div class="collapse navbar-collapse" id="navbarNav">
+          <span th:if="${#request.userPrincipal != null}">
         <ul class="navbar-nav">
             <li class="navbar-text">
                 <a class="nav-link" href="#">with roles:</a>
@@ -34,13 +35,14 @@
                 </div>
             </li>
         </ul>
+    </span>
         <ul class="navbar-nav ml-auto">
             <li class="active">
                 <a href="/logout">Logout</a>
             </li>
         </ul>
-    </div>
-    </span>
+        </div>
+
 </nav>
 
 
