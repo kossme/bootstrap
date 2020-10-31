@@ -2,46 +2,51 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.w3.org/1999/xhtml">
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
 
 <style>
-html, body, .container-fluid , .row {
-    height: 100%;
-}
+    html, body, .container-fluid, .row {
+        height: 100%;
+    }
 </style>
 
 <body>
 
-    <!-- Include _menu.html -->
+<!-- Include _menu.html -->
 <th:block th:include="/_menu">Menu</th:block>
 
-    <div class="container-fluid">
-        <div class="row no-gutters">
-            <div class="col-md-2 bg-white text-dark">
-                <div sec:authorize="hasRole('ROLE_USER')">
-                    <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                        <a sec:authorize="hasRole('ROLE_USER')"  class="nav-link active" id="v-pills-user-tab" data-toggle="pill" href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="true">USER</a>
-                        <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" id="v-pills-admin-tab" data-toggle="pill" href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="false">ADMIN</a>
-                    </div>
-                </div>
+<div class="container-fluid">
+    <div class="row no-gutters">
+        <div class="col-md-2 bg-white text-dark">
+            <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                <a sec:authorize="hasRole('ROLE_USER')" class="nav-link active" id="v-pills-user-tab" data-toggle="pill"
+                   href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="true">USER</a>
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" id="v-pills-admin-tab" data-toggle="pill"
+                   href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="false">ADMIN</a>
             </div>
+        </div>
 
-            <div class="col-md-10 bg-light text-dark">
-
-                <div class="tab-content" id="v-pills-tabContent">
-                    <div sec:authorize="hasRole('ROLE_USER')">
-                        <div sec:authorize="hasRole('ROLE_USER')" class="tab-pane fade show active" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">Wellcome User</div>
-                        <div sec:authorize="hasRole('ROLE_ADMIN')" class="tab-pane fade" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">Wellcome Admin</div>
-                    </div>
+        <div class="col-md-10 bg-light text-dark">
+            <div sec:authorize="isAuthenticated()" class="tab-content my-2 mx-3" id="v-pills-tabContent">
+                <div class="tab-pane fade show active" id="v-pills-user" role="tabpanel" aria-labelledby="v-pills-user-tab">
+                    <h1> User information-page </h1>
                 </div>
-
-                привет2
-
+                <div class="tab-pane fade" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
+                    <h1> Admin panel </h1>
+                </div>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>
