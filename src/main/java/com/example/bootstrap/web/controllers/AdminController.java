@@ -37,8 +37,6 @@ public class AdminController {
     @GetMapping("/admin/userList")
     public String userList(Model model) {
         System.out.println("roleService.listAllRoles()");
-
-
         model.addAttribute("usersList", userService.listUsers());
         return "/admin/userList";
     }
@@ -52,10 +50,8 @@ public class AdminController {
 
     @PostMapping("/admin/create")
     public String create(@ModelAttribute("user") User userForm,
-                         //@ModelAttribute("roles") ArrayList<Integer> rolesInt,
                          BindingResult bindingResult,
                          Model model) {
-        //System.out.println(rolesInt);
         System.out.println(userForm.getAuthorities());
         System.out.println(userForm.getRoles());
         System.out.println(userForm);

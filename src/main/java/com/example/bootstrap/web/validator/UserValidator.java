@@ -31,7 +31,6 @@ import org.springframework.validation.Validator;
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "NotEmpty.appUserForm.password");
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "confirmPassword", "NotEmpty.appUserForm.confirmPassword");
 
-
             ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
             if (user.getUsername().length() < 4 || user.getUsername().length() > 16) {
                 errors.rejectValue("username", "Size.userForm.username");

@@ -1,9 +1,13 @@
 package com.example.bootstrap.model;
 
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.Collection;
 import java.util.Set;
 
@@ -17,14 +21,29 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Size(min = 4, max = 16)
+    @NotBlank
     @Column
     private String firstName;
+
+    @NotBlank
     @Column
     private String lastName;
+
+    @NotBlank
+    @Column
+    private int age;
+
+    @NotBlank
     @Column
     private String email;
+
+    @NotBlank
     @Column
     private String username;
+
+    @Size(min = 4, max = 16)
+    @NotBlank
     @Column
     private String password;
 
@@ -36,9 +55,10 @@ public class User implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(String firstName, String lastName, String email, String username, String password, String confirmPassword) {
+    public User(String firstName, String lastName, int age, String email, String username, String password, String confirmPassword) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -48,9 +68,10 @@ public class User implements UserDetails {
     public User() {
     }
 
-    public User(String firstName, String lastName, String email, String username, String password) {
+    public User(String firstName, String lastName, int age, String email, String username, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.age = age;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -86,6 +107,14 @@ public class User implements UserDetails {
         this.lastName = lastName;
     }
 
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -118,6 +147,7 @@ public class User implements UserDetails {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +

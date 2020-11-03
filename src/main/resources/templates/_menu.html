@@ -6,10 +6,10 @@
 
 -->
 
-<style>
+<style xmlns:th="http://www.w3.org/1999/xhtml">
     .navbar-text {
-        padding-left:3px;
-        padding-right:3px;
+        padding-left: 3px;
+        padding-right: 3px;
     }
 </style>
 
@@ -24,30 +24,28 @@
     </button>
 
     <div class="collapse navbar-collapse text-center" id="navbarNav">
-          <span th:if="${#request.userPrincipal != null}">
-        <ul class="navbar-nav">
-            <li class="navbar-text text-white">
-                with roles:
-            </li>
-            <li class="navbar-text text-white">
-                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                    Admin
-                </div>
+                <ul sec:authorize="isAuthenticated()" class="navbar-nav">
+                    <li class="navbar-text text-white">
+                        with roles:
+                    </li>
+                    <li class="navbar-text text-white">
+                        <div sec:authorize="hasRole('ROLE_ADMIN')">
+                            Admin
+                        </div>
 
-            </li>
-            <li class="navbar-text text-white">
-                <div sec:authorize="hasRole('ROLE_USER')">
-                    User
-                </div>
-            </li>
-        </ul>
-    </span>
-        <ul class="navbar-nav ml-auto">
-            <li class="active">
-                <a href="/logout">Logout</a>
-            </li>
-        </ul>
-        </div>
+                    </li>
+                    <li class="navbar-text text-white">
+                        <div sec:authorize="hasRole('ROLE_USER')">
+                            User
+                        </div>
+                    </li>
+                </ul>
+            <ul sec:authorize="isAuthenticated()" class="navbar-nav ml-auto pl-5">
+                <li class="active">
+                    <a href="/logout">Logout</a>
+                </li>
+            </ul>
+    </div>
 
 </nav>
 

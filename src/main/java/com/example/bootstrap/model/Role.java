@@ -2,7 +2,10 @@ package com.example.bootstrap.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +18,8 @@ public class Role implements GrantedAuthority {
     @Column
     private Integer id;
 
-
+    @NotNull
+    @NotBlank
     @Column(unique = true)
     private String name;
 
