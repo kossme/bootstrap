@@ -101,6 +101,12 @@ public class UserController {
         return "userPage";
     }
 
+    @GetMapping("/delete/{id}")
+    public String deleteUserById(@PathVariable(value = "id", required = true) long id, Model model) {
+        userService.removeUser(id);
+        return "redirect:/";
+    }
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("user", userService.findUserById(id));
@@ -117,7 +123,7 @@ public class UserController {
         }
 
         model.addAttribute("confirmUser", isUser);
-        return "/updateForm";
+        return "/home";
     }
 
     @PostMapping("/upddate/{id}")
@@ -192,6 +198,8 @@ public class UserController {
         userService.updateUser(userForm);
         return "redirect:/";
     }
+
+
 
 }
 
