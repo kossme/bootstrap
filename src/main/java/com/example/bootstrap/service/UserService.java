@@ -40,16 +40,22 @@ public class UserService implements UserDetailsService {
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         Set<Role> roles = user.getRoles();
-            if (user.getRoles() == null) {
+
+        if (user.getRoles()==null || user.getRoles().size()==0) {
+            user.setRoles(Collections.singleton(new Role(1, "ROLE_USER")));
+        }
+
+            //set Roles table data for the initial start
+        if(roleService.getRoleByName("ROLE_USER")==null) {
+            roleService.save(new Role(1, "ROLE_USER"));
+            if (user.getRoles().size()==0) {
                 user.setRoles(Collections.singleton(new Role(1, "ROLE_USER")));
+                user.setRoles(Collections.singleton(new Role(2, "ROLE_ADMIN")));
             }
-            if(roleService.getRoleByName("ROLE_USER")==null) {
-                roleService.save(new Role(1, "ROLE_USER"));
-            }
-
-        System.out.println(user.getRoles());
-        System.out.println(user.getRoles());
-
+        }
+        if(roleService.getRoleByName("ROLE_ADMIN")==null) {
+            roleService.save(new Role(2, "ROLE_ADMIN"));
+        }
 
         for (Role e : user.getRoles()) {
             if (e.getName().equals("ROLE_USER")) {

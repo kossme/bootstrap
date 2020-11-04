@@ -13,8 +13,6 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script type="text/javascript" src="../static/js/main.js" th:src="@{js/main.js}"></script>
-
 
 <style>
     html, body, .container-fluid, .row {
@@ -31,51 +29,20 @@
     <div class="row no-gutters">
         <div class="col-md-2 bg-white text-dark">
             <div class="nav flex-column nav-pills pt-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a sec:authorize="hasRole('ROLE_USER')" class="nav-link active" id="v-pills-user-tab" data-toggle="pill"
-                   href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="true">USER</a>
-                <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link" id="v-pills-admin-tab" data-toggle="pill"
+                <a sec:authorize="hasRole('ROLE_ADMIN')" class="nav-link active" id="v-pills-admin-tab" data-toggle="pill"
                    href="#v-pills-admin" role="tab" aria-controls="v-pills-admin" aria-selected="false">ADMIN</a>
+                <a sec:authorize="hasRole('ROLE_USER')" class="nav-link" id="v-pills-user-tab" data-toggle="pill"
+                   href="#v-pills-user" role="tab" aria-controls="v-pills-user" aria-selected="true">USER</a>
             </div>
         </div>
 
         <div class="col-md-10 bg-light text-dark">
             <div class="tab-content my-3 mx-3" id="v-pills-tabContent">
-                <div class="tab-pane fade show active m-3" id="v-pills-user" role="tabpanel"
-                     aria-labelledby="v-pills-user-tab">
-                    <h1> User information-page </h1>
-                    <div class="container border">
-                        <div class="row my-2">
-                            <div class="col-md-10 bg-light text-dark">
-                                <h3> About user </h3>
-                                <table class="table table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th scope="col">Name</th>
-                                        <th scope="col">Last Name</th>
-                                        <th scope="col">Username</th>
-                                        <th scope="col">Age</th>
-                                        <th scope="col">Email</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td><span sec:authentication="principal.firstName"></span></td>
-                                        <td><span sec:authentication="principal.lastName"></span></td>
-                                        <td><span sec:authentication="principal.username"></span></td>
-                                        <td><span sec:authentication="principal.age"></span></td>
-                                        <td><span sec:authentication="principal.email"></span></td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
 
-                    </div>
-                </div>
-                <div class="tab-pane fade m-3" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
+                <div sec:authorize="hasRole('ROLE_ADMIN')" class="tab-pane fade show active m-3" id="v-pills-admin" role="tabpanel" aria-labelledby="v-pills-admin-tab">
                     <h1> Admin panel </h1>
                     <nav>
-                        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                        <div class="nav nav-tabs active" id="nav-tab" role="tablist">
                             <a class="nav-link active bg-white" id="nav-users-table-tab" data-toggle="tab"
                                href="#nav-users-table" role="tab" aria-controls="nav-users-table" aria-selected="true">Users
                                 Table</a>
@@ -114,10 +81,8 @@
                                                        data-toggle="modal" data-target="#editUserModal"
                                                        th:attrappend="data-target=${user.id}">Edit</a></td>
 
-                                                <!--
-                                                                                                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" th:attrappend="data-target=${student.id}">Edit </button>
-                                                -->
 
+                                                <!-- EDIT-->
 
                                                 <div class="modal fade" id="editUserModal" role="dialog"
                                                      th:attrappend="id=${user.id}">
@@ -212,7 +177,7 @@
                                                                                             <input id="age" name="age"
                                                                                                    type="number"
                                                                                                    placeholder="age"
-                                                                                                   class="form-control input-md"
+                                                                                                   class="quantity"
                                                                                                    th:value="${user.age}"
                                                                                             >
                                                                                         </div>
@@ -457,62 +422,6 @@
                                             </tr>
                                         </table>
 
-
-                                        <!--
-
-                                                                                    <div class="modal fade" id="editUserModal" tabindex="-1" aria-labelledby="editUserModalLabel" aria-hidden="true">
-                                                                                       <form th:action="@{'/update/' + ${user.id}}">
-                                                                                        <div class="modal-dialog">
-                                                                                            <div class="modal-content">
-                                                                                                <div class="modal-header">
-                                                                                                    <h5 class="modal-title" id="editUserModalLabel">Edit user</h5>
-                                                                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                                                                        <span aria-hidden="true">&times;</span>
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                                <div class="modal-body">
-
-                                                                                                    <form th:action="@{'/update/' + ${user.id}}" th:object="${user}" method="POST">
-
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="recipient-name" class="col-form-label">id:</label>
-                                                                                                            <input type="text" class="form-control" id="recipient-name" name="idEdit">
-                                                                                                        </div>
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="recipient-name" class="col-form-label">username:</label>
-                                                                                                            <input type="text" class="form-control" id="usernameEdit" name="usernameEdit">
-                                                                                                        </div>
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="recipient-name" class="col-form-label">firstName:</label>
-                                                                                                            <input type="text" class="form-control" id="firstNameEdit" name="firstNameEdit">
-                                                                                                        </div>
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="recipient-name" class="col-form-label">lastName:</label>
-                                                                                                            <input type="text" class="form-control" id="lastNameEdit" name="lastNameEdit">
-                                                                                                        </div>
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="recipient-name" class="col-form-label">age:</label>
-                                                                                                            <input type="text" class="form-control" id="ageEdit" name="ageEdit">
-                                                                                                        </div>
-                                                                                                        <div class="form-group">
-                                                                                                            <label for="recipient-name" class="col-form-label">email:</label>
-                                                                                                            <input type="text" class="form-control" id="emailEdit" name="emailEdit">
-                                                                                                        </div>
-
-
-
-
-                                                                                                    </form>
-                                                                                                </div>
-                                                                                                <div class="modal-footer">
-                                                                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                                                                    <button type="button" class="btn btn-primary">Send message</button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </div>
-                                        -->
-
                                     </div>
                                 </div>
                             </div>
@@ -532,6 +441,40 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="tab-pane fade show active m-3" id="v-pills-user" role="tabpanel"
+                     aria-labelledby="v-pills-user-tab">
+                    <h1> User information-page </h1>
+                    <div class="container border">
+                        <div class="row my-2">
+                            <div class="col-md-10 bg-light text-dark">
+                                <h3> About user </h3>
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Username</th>
+                                        <th scope="col">Age</th>
+                                        <th scope="col">Email</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><span sec:authentication="principal.firstName"></span></td>
+                                        <td><span sec:authentication="principal.lastName"></span></td>
+                                        <td><span sec:authentication="principal.username"></span></td>
+                                        <td><span sec:authentication="principal.age"></span></td>
+                                        <td><span sec:authentication="principal.email"></span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
