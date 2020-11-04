@@ -80,17 +80,12 @@ public class UserController {
         return "redirect:/home";
     }
 
-    // Login form
+/*    // Login form
     @GetMapping("/login")
     public String login() {
         return "login";
     }
-
-    @GetMapping(value = "/logoutSuccessful")
-    public String logoutSuccessfulPage(Model model) {
-        model.addAttribute("title", "Logout");
-        return "logoutSuccessfulPage";
-    }
+    */
 
     @GetMapping(value = "/userPage")
     public String showUserPage(Model model) {
@@ -107,32 +102,13 @@ public class UserController {
         return "redirect:/";
     }
 
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("user", userService.findUserById(id));
-        model.addAttribute("allRoles", roleService.listRoles());
-
-        boolean isAdmin = false;
-        boolean isUser = false;
-        if (userService.findUserById(id).getRoles().stream().anyMatch(a -> a.toString().contains("ROLE_ADMIN"))) {
-            isAdmin = true;
-        }
-        model.addAttribute("confirmAdmin", isAdmin);
-        if (userService.findUserById(id).getRoles().stream().anyMatch(a -> a.toString().contains("ROLE_USER"))) {
-            isUser = true;
-        }
-
-        model.addAttribute("confirmUser", isUser);
-        return "/home";
-    }
-
-    @PostMapping("/upddate/{id}")
-    public String update(@ModelAttribute("user") User userForm,
-                         @RequestParam(name = "ROLE_ADMIN", required = false) boolean confirmAdmin,
-                         @RequestParam(name = "ROLE_USER", required = false) boolean confirmUser,
+    @PostMapping("/update")
+    public String update(@ModelAttribute("newUser") User userForm,
+                         @RequestParam(name = "ROLE_ADMIN", required = false) String confirmAdmin,
+                         @RequestParam(name = "ROLE_USER", required = false) String confirmUser,
                          BindingResult bindingResult,
                          Model model) {
-
+/*
         Validator editValidator = new Validator() {
             @Override
             public boolean supports(Class<?> aClass) {
@@ -165,28 +141,30 @@ public class UserController {
                     }
                 }
             }
-        };
+        };*/
 
-        editValidator.validate(userForm, bindingResult);
+        System.out.println(confirmAdmin);
+        System.out.println(confirmUser);
+        //editValidator.validate(userForm, bindingResult);
         if (bindingResult.hasErrors()) {
-            return "/updateForm";
+            return "/";
         }
 
         //Checking if password was changed
-        if(userForm.getPassword().equals("")) {
+    /*    if(userForm.getPassword().equals("")) {
             userForm.setPassword(userService.findUserById(userForm.getId()).getPassword());
         } else {
             userForm.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
-        }
+        }*/
 
         //Cgecking Roles
         User userRole = new User();
         Set<Role> newroles = new HashSet<>();
 
-        if (confirmAdmin) {
+        if (confirmAdmin!=null) {
             newroles.add(roleService.getRoleByName("ROLE_ADMIN"));
         }
-        if (confirmUser) {
+        if (confirmUser!=null) {
             newroles.add(roleService.getRoleByName("ROLE_USER"));
         }
 
@@ -196,6 +174,10 @@ public class UserController {
         userForm.setRoles(userRole.getRoles());
 
         userService.updateUser(userForm);
+
+        model.addAttribute("usersList", userService.listUsers());
+        model.addAttribute("newUser", new User());
+        model.addAttribute("allRoles", roleService.listRoles());
         return "redirect:/";
     }
 
