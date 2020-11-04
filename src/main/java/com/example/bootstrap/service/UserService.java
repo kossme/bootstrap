@@ -16,10 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -39,22 +36,23 @@ public class UserService implements UserDetailsService {
 
     public void save(User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        Set<Role> roles = user.getRoles();
+        Set<Role> roles = new HashSet<>();
+        Set<Role> roles1 = user.getRoles();
+
+        //set Roles table data for the initial start
+        if(roleService.getRoleByName("ROLE_USER")==null && roleService.getRoleByName("ROLE_ADMIN")==null) {
+            roleService.save(new Role(1, "ROLE_USER"));
+            roleService.save(new Role(2, "ROLE_ADMIN"));
+            if (user.getRoles()==null || user.getRoles().size()==0) {
+                roles.add(roleService.getRoleByName("ROLE_USER"));
+                roles.add(roleService.getRoleByName("ROLE_ADMIN"));
+                user.setRoles(roles);
+            }
+        }
+
 
         if (user.getRoles()==null || user.getRoles().size()==0) {
             user.setRoles(Collections.singleton(new Role(1, "ROLE_USER")));
-        }
-
-            //set Roles table data for the initial start
-        if(roleService.getRoleByName("ROLE_USER")==null) {
-            roleService.save(new Role(1, "ROLE_USER"));
-            if (user.getRoles().size()==0) {
-                user.setRoles(Collections.singleton(new Role(1, "ROLE_USER")));
-                user.setRoles(Collections.singleton(new Role(2, "ROLE_ADMIN")));
-            }
-        }
-        if(roleService.getRoleByName("ROLE_ADMIN")==null) {
-            roleService.save(new Role(2, "ROLE_ADMIN"));
         }
 
         for (Role e : user.getRoles()) {
